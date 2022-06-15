@@ -1,0 +1,69 @@
+syntax = "proto3";
+option java_package = "proto.generated";
+
+service PostsService{
+    rpc GetPosts(PostRequest) returns (stream Post);
+    rpc PostIt(LitePost) returns (PostingReply);
+    rpc LikeIt(SendLike) returns (PostingReply);
+    rpc SendComment(LiteCommentary) returns (PostingReply);
+    rpc GetComments(CommentariesRequest) returns (stream Commentary);
+}
+
+message LitePost{
+    int32 poster_id = 1;
+    string name_of_poster = 2;
+    string post_text = 3;
+    PostCategory post_category = 4;
+    int32 which_house = 5;
+    Campus which_campus = 6;
+    bytes posted_picture = 7;
+}
+message Post {
+    int32 post_id = 1;
+    LitePost lite_post = 2;
+    bytes poster_profile_picture = 3;
+    bool liked = 4;
+
+}
+
+message PostingReply{
+    bool successful = 1;
+}
+
+message PostRequest {
+    int32 last_post_fetched_id = 1;
+    PostCategory post_category = 2;
+    Campus which_campus = 3;
+    int32 which_house =4;
+}
+message LiteCommentary{
+    int32 commentator_id = 1;
+    int32 post_id = 2;
+    string name_of_commentator = 3;
+    string comment_text = 4;
+}
+message Commentary{
+    int32 comment_id = 1;
+    LiteCommentary lite_commentary = 2;
+    bytes commentator_profile_picture = 3;
+}
+
+message CommentariesRequest{
+    int32 post_id = 1;
+}
+message SendLike{
+    int32 post_id = 1;
+    int32 account_id = 2;
+    bool liked = 3;
+}
+
+enum PostCategory{
+
+    POST_CATEGORY_ALL = 0;
+    POST_CATEGORY_CAMPUS = 1;
+    POST_CATEGORY_HOUSE = 2;
+}
+enum Campus{
+  CAMPUS_MEMO = 0;
+  CAMPUS_COLINA = 1;
+}

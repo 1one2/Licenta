@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Licenta</string>
+    <string name="search_description">The image for the search function</string>
+    <string name="chat_description">Image for the chat functionality</string>
+    <string name="profile_picture">Profile picture in the posting section</string>
+    <string name="posting_hint">What are you thinking about?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menuString">Menu</string>
+    <string name="name_placeholder">Name placeholder</string>
+    <string name="see_your_profile">See your profile</string>
+    <string name="log_out">Log out</string>
+    <string name="search_hint"> Search</string>
+    <string name="chats_title">Chats</string>
+    <string name="writing_hint">Aa</string>
+    <string name="post_text_placeholder">This is an example of a text that will be posted on the feed</string>
+    <string name="like_text">Like</string>
+    <string name="comment_text">Comment</string>
+    <string name="write_a_comment_hint">Write a comment...</string>
+    <string name="login">Login</string>
+    <string name="post">Post</string>
+    <string name="login_error_message">E-mail or password is wrong \n Or you haven\'t been issued an account yet</string>
+    <string name="create_post">Create post</string>
+    <string-array name="categories">
+        <item>All</item>
+        <item>Campus</item>
+        <item>House</item>
+    </string-array>
+    <string name="server_url">10.0.2.2</string>
+    <integer name="server_port">8080</integer>
+</resources>

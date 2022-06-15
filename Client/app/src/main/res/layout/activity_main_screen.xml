@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainScreenActivity"
+    android:background="@color/primary"
+    >
+
+    <!-- The top bar of the app -->
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/topBar"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--After the change of the app name you need
+                     to change the space right below -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="App Name"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="30sp"
+            android:textColor="@color/action"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+
+            />
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/profile_picture"
+            android:src="@raw/profile_picture_ph"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/searchButton"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"/>
+        <ImageView
+            android:id="@+id/searchButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@drawable/when_pressed"
+            android:clickable="true"
+            android:src="@drawable/search_vector"
+            android:contentDescription="@string/search_description"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/chatButton"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/chatButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:background="@drawable/when_pressed"
+            android:clickable="true"
+            android:src="@drawable/message_vector"
+            android:contentDescription="@string/chat_description"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Menu's bar -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/menusBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar" >
+
+        <ImageView android:id="@+id/allPostsButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_all"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/focused_item"
+            android:onClick="onMenuButtonsClick"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+             />
+        <ImageView android:id="@+id/campusPostsButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_campus"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/unfocused_item"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/allPostsButton"
+
+            />
+
+        <ImageView
+            android:id="@+id/housePostsButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/unfocused_item"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_house"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/campusPostsButton"
+
+            />
+
+        <ImageView android:id="@+id/menuButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/menu_vector"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/unfocused_item"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- Posting part of the app -->
+
+    <androidx.appcompat.widget.AppCompatTextView android:id="@+id/postingEditText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="3dp"
+        android:text="@string/posting_hint"
+        android:gravity="center"
+        android:textColor="@color/action"
+        android:background="@drawable/posting_edit_text"
+        app:layout_constraintTop_toBottomOf="@id/menusBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+    <!-- Posts Feed -->
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/postsFeed"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintTop_toBottomOf="@id/postingEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:numColumns="1"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

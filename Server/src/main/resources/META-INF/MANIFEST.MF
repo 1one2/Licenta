@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Main-Class: server.Main
+Class-Path: opencensus-contrib-grpc-metrics-0.12.3.jar grpc-context-1.15
+ .1.jar javax.annotation-api-1.2.jar animal-sniffer-annotations-1.17.jar
+  grpc-protobuf-lite-1.15.1.jar grpc-stub-1.15.1.jar proto-google-common
+ -protos-1.0.0.jar protobuf-java-3.21.1.jar jsr305-3.0.0.jar h2-2.1.210.
+ jar grpc-netty-shaded-1.15.1.jar opencensus-api-0.12.3.jar guava-20.0.j
+ ar error_prone_annotations-2.2.0.jar gson-2.7.jar grpc-core-1.15.1.jar 
+ grpc-protobuf-1.15.1.jar
+

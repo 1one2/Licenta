@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "Posts.proto";
+option java_package = "proto.generated";
+
+service LoginService{
+  rpc Login(LoginRequest) returns (LoginReply){}
+}
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+message LoginReply{
+  bool successful = 1;
+  Account account = 2;
+}
+
+message Account {
+  int32 id = 1;
+  string email = 2;
+  string password = 3;
+  Campus campus = 4;
+  int32 house = 5;
+  bytes profile_picture = 6;
+}
