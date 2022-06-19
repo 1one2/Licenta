@@ -21,4 +21,3 @@ message Message{
 message MessageFromServer{
     Message message = 1;
 }
-

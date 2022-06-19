@@ -13,7 +13,50 @@ public class PostsService extends PostsServiceGrpc.PostsServiceImplBase {
     private final static String house = "AND WHICH_HOUSE = '%s' ";
     private final static String campus = "AND WHICH_CAMPUS = '%s' ";
     private final static String orderBy = "ORDER BY POST_ID DESC ";
+
     @Override
+    public void getPostsById(Posts.PostsRequestByAccountId request, StreamObserver<Posts.Post> responseObserver) {
+        Statement statement = null;
+        try {
+            Connection con = DriverManager.getConnection("jdbc:h2:~/Licenta", "root","");
+
+            statement = con
+                    .createStatement();
+            String sql = String.format("SELECT * FROM POSTS WHERE POSTER_ID = '%s' ORDER BY POST_ID DESC", request.getAccountId());
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while(resultSet.next()){
+                statement = con.createStatement();
+                ResultSet liked = statement.executeQuery(String.format("SELECT liked from Likes WHERE POST_ID = '%s' AND ACCOUNT_ID = '%s'",
+                        resultSet.getInt("POST_ID"),resultSet.getInt("POSTER_ID")));
+                boolean isLiked = false;
+                if(liked.next())
+                    isLiked = (liked.getInt("liked") == 1);
+
+                boolean hasPhoto = resultSet.getInt("HAS_PHOTO") == 1;
+                Posts.Post reply = Posts.Post.newBuilder()
+                        .setLiked(isLiked)
+                        .setPostId(resultSet.getInt("POST_ID"))
+                        .setLitePost(Posts.LitePost.newBuilder()
+                                .setPosterId(resultSet.getInt("POSTER_ID"))
+                                .setNameOfPoster(resultSet.getString("NAME_OF_POSTER"))
+                                .setPostText(resultSet.getString("POST_TEXT"))
+                                .setWhichHouse(resultSet.getInt("WHICH_HOUSE"))
+                                .setHasPhoto(hasPhoto)
+                                .build())
+                        .build();
+
+                responseObserver.onNext(reply);
+            }
+
+            responseObserver.onCompleted();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+
     public void getPosts(Posts.PostRequest request, StreamObserver<Posts.Post> responseObserver) {
         //Get posts from database and send them to the client
 
@@ -75,6 +118,8 @@ public class PostsService extends PostsServiceGrpc.PostsServiceImplBase {
                 if(liked.next())
                     isLiked = (liked.getInt("liked") == 1);
 
+                boolean hasPhoto = resultSet.getInt("HAS_PHOTO") == 1;
+
                 Posts.Post post = Posts.Post.newBuilder()
                         .setPostId(resultSet.getInt("POST_ID"))
                         .setLitePost(Posts.LitePost.newBuilder()
@@ -83,6 +128,7 @@ public class PostsService extends PostsServiceGrpc.PostsServiceImplBase {
                                     .setPostText(resultSet.getString("POST_TEXT"))
                                     .setPostCategory(request.getPostCategory())
                                     .setWhichHouse(resultSet.getInt("WHICH_HOUSE"))
+                                    .setHasPhoto(hasPhoto)
                                     .build()
                                     )
                                 //.setPosterProfilePicture()
@@ -186,9 +232,7 @@ public class PostsService extends PostsServiceGrpc.PostsServiceImplBase {
                                 .setPostId(resultSet.getInt("POST_ID"))
                                 .setNameOfCommentator(resultSet.getString("NAME_OF_COMMENTATOR"))
                                 .setCommentText(resultSet.getString("COMMENT_TEXT"))
-                                .build())
-                        //.setCommentatorProfilePicture()
-                        ;
+                                .build());
                 responseObserver.onNext(replyBuilder.build());
             }
             responseObserver.onCompleted();
@@ -209,17 +253,30 @@ public class PostsService extends PostsServiceGrpc.PostsServiceImplBase {
             statement = con
                     .createStatement();
 
-            String sql = String.format("INSERT INTO posts (POSTER_ID,NAME_OF_POSTER,POST_TEXT,POST_CATEGORY,WHICH_HOUSE,WHICH_CAMPUS)"
-                    + "VALUES ('%s','%s','%s','%s','%s','%s');",
+            String sql = String.format("INSERT INTO posts (POSTER_ID,NAME_OF_POSTER,POST_TEXT,POST_CATEGORY,WHICH_HOUSE,WHICH_CAMPUS,HAS_PHOTO)"
+                    + "VALUES ('%s','%s','%s','%s','%s','%s','%s');",
+                    request.getPosterId(),
+                    request.getNameOfPoster(),
+                    request.getPostText(),
+                    parsePostCategoryToString(request.getPostCategory()),
+                    request.getWhichHouse(),
+                    parseCampusToString(request.getWhichCampus()),
+                    parseBooleanToInt(request.getHasPhoto()));
+
+            int resultSet = statement.executeUpdate(sql);
+            sql = String.format("SELECT POST_ID FROM posts WHERE POSTER_ID = '%s' AND NAME_OF_POSTER = '%s' AND " +
+                    "POST_TEXT = '%s' AND POST_CATEGORY = '%s' AND WHICH_HOUSE = '%s' AND WHICH_CAMPUS = '%s'",
                     request.getPosterId(),
                     request.getNameOfPoster(),
                     request.getPostText(),
                     parsePostCategoryToString(request.getPostCategory()),
                     request.getWhichHouse(),
                     parseCampusToString(request.getWhichCampus()));
-
-            int resultSet = statement.executeUpdate(sql);
-            responseObserver.onNext(Posts.PostingReply.newBuilder().setSuccessful(true).build());
+            statement = con.createStatement();
+            ResultSet set = statement.executeQuery(sql);
+            set.next();
+            int post_id = set.getInt("POST_ID");
+            responseObserver.onNext(Posts.PostingReply.newBuilder().setSuccessful(true).setPostId(post_id).build());
             responseObserver.onCompleted();
 
         } catch (SQLException e) {

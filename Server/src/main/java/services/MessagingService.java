@@ -2,21 +2,21 @@ package services;
 
 import io.grpc.stub.ServerCallStreamObserver;
 import io.grpc.stub.StreamObserver;
+import models.ChatSession;
 import proto.generated.Messaging;
 import proto.generated.MessagingServiceGrpc;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MessagingService extends MessagingServiceGrpc.MessagingServiceImplBase {
 
     //Integer is the chat_id, then a have a Pair of Pairs in which the integer is the owner_id, and the second is the observer for the stream
-    private static final Set<StreamObserver<Messaging.MessageFromServer>> observers = ConcurrentHashMap.newKeySet();
+    private static final HashMap<Integer, ChatSession> observers = new HashMap<>();
     private final static String normalSql = "SELECT * FROM MESSAGES WHERE CHAT_ID = '%s'";
 
-    //owner_id, observer
-    //Pair<Integer,StreamObserver<Messaging.Message>>
 
     @Override
     public void getMessagingHistory(Messaging.MessageHistoryRequest request, StreamObserver<Messaging.Message> responseObserver) {
@@ -41,6 +41,7 @@ public class MessagingService extends MessagingServiceGrpc.MessagingServiceImplB
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
+                String s = resultSet.getString("MESSAGE_TEXT");
                 Messaging.Message reply = Messaging.Message.newBuilder()
                         .setMessageId(resultSet.getInt("MESSAGE_ID"))
                         .setChatId(resultSet.getInt("CHAT_ID"))
@@ -63,45 +64,66 @@ public class MessagingService extends MessagingServiceGrpc.MessagingServiceImplB
         //  return super.sendReceiveMessage(responseObserver);
         //While you are on the inside of the chat the bilateral stream will be a continue one
 
-
-        ServerCallStreamObserver<Messaging.MessageFromServer> observer = (ServerCallStreamObserver<Messaging.MessageFromServer>) responseObserver;
-        observer.setOnCancelHandler(() -> {
-            System.out.println("Stream cancelled."); // never invoked
-        });
-        new Thread(() -> {
-            while (!observer.isCancelled()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    return;
-                }
-            }
-            System.err.println("isCancelled switched to true"); // this message eventually gets logged
-        }).start();
-        observers.add(observer);
+        final int[] chat_id = new int[1];
+        final int[] owner_id = new int[1];
 
         return new StreamObserver<Messaging.Message>() {
             @Override
             public void onNext(Messaging.Message message) {
                 //receiving data from client
 
-                System.out.println(String.format("Got a message from: '%s' : '%s'", message.getMessageOwnerId(), message.getMessage()));
-                for(StreamObserver<Messaging.MessageFromServer> observer : observers){
-                    observer.onNext(Messaging.MessageFromServer.newBuilder().setMessage(message).build());
-                   //observer.onCompleted();
+                if(message.getMessage().equals("")){
+                    if(observers.containsKey(message.getChatId())) {
+                        observers.get(message.getChatId()).setOnline(message.getMessageOwnerId(),responseObserver);
+                    }
+                    else{
+                        ChatSession newSession = new ChatSession();
+                        newSession.setOnline(message.getMessageOwnerId(),responseObserver);
+                        observers.put(message.getChatId(),newSession);
+                    }
                 }
+                else{
+                    Statement statement = null;
+                    chat_id[0] = message.getChatId();
+                    owner_id[0] = message.getMessageOwnerId();
+                    try {
+                        Connection con = DriverManager.getConnection("jdbc:h2:~/Licenta", "root", "");
+
+                        statement = con
+                                .createStatement();
+
+
+                        String sql = String.format("INSERT INTO MESSAGES (CHAT_ID, OWNER_ID, MESSAGE_TEXT) VALUES ('%s','%s','%s')",
+                                message.getChatId(), message.getMessageOwnerId(),message.getMessage());
+
+                        int resultSet = statement.executeUpdate(sql);
+
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                    observers.get(message.getChatId()).sendMessage(Messaging.MessageFromServer.newBuilder().setMessage(message).build());
+                    System.out.println(String.format("Got a message from: '%s' : '%s'", message.getMessageOwnerId(), message.getMessage()));
+                }
+
             }
 
             @Override
             public void onError(Throwable throwable) {
 
-                observers.remove(responseObserver);
+                if(observers.containsKey(chat_id[0])) {
+                    observers.get(chat_id[0]).setOffline(owner_id[0]);
+                }
+               System.err.println(throwable.getMessage());
             }
 
             @Override
             public void onCompleted() {
                 responseObserver.onCompleted();
-                observers.remove(responseObserver);
+                if(observers.get(chat_id[0]) != null) {
+                    observers.get(chat_id[0]).setOffline(owner_id[0]);
+                }
             }
 
         };

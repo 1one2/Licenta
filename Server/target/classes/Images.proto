@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_package = "proto.generated";
+
+service ImageService{
+    rpc UploadImage(stream ImageTransfer) returns (Empty);
+    rpc DownloadImage(ImageInfo) returns (stream ImageTransfer);
+}
+
+message ImageTransfer{
+    oneof data{
+        ImageInfo image_info = 1;
+        bytes chunk_data = 2;
+    };
+}
+
+message ImageInfo{
+    ImageUsage image_usage = 1;
+    string image_type = 2;
+    int32 account_id = 3;
+    int32 post_id = 4;
+
+}
+enum ImageUsage{
+    PROFILE_PICTURE = 0;
+    POST_PICTURE = 1;
+}
+
+message Empty{
+
+}

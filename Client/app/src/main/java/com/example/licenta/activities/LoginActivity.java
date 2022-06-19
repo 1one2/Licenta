@@ -40,7 +40,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //opening the channel to the server
-                ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+                ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                        getInstance().getResources().getString(R.string.server_ip),
+                                ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                         .usePlaintext()
                         .build();
 
@@ -64,12 +66,16 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     //else move to the next part of the application
                     ApplicationController.setAccount(loginReply.getAccount());
+                    ApplicationController.downloadProfilePicture();
                     startActivity(mainScreenIntent);
+
                     channel.shutdownNow();
-                    try {
-                        channel.awaitTermination(1, TimeUnit.SECONDS);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(!channel.isTerminated()) {
+                        try {
+                            channel.awaitTermination(50, TimeUnit.MILLISECONDS);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     finish();

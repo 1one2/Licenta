@@ -38,8 +38,10 @@
         <entry key="..\:/Licenta/app/src/main/res/layout/activity_comment.xml" value="0.2765625" />
         <entry key="..\:/Licenta/app/src/main/res/layout/activity_first_time.xml" value="0.24547101449275363" />
         <entry key="..\:/Licenta/app/src/main/res/layout/activity_login.xml" value="0.3625" />
-        <entry key="..\:/Licenta/app/src/main/res/layout/activity_main_screen.xml" value="0.2" />
+        <entry key="..\:/Licenta/app/src/main/res/layout/activity_main_screen.xml" value="0.33" />
+        <entry key="..\:/Licenta/app/src/main/res/layout/activity_menu.xml" value="0.3625" />
         <entry key="..\:/Licenta/app/src/main/res/layout/activity_post.xml" value="0.25364583333333335" />
+        <entry key="..\:/Licenta/app/src/main/res/layout/activity_profile.xml" value="0.3625" />
         <entry key="..\:/Licenta/app/src/main/res/layout/activity_search.xml" value="0.25" />
         <entry key="..\:/Licenta/app/src/main/res/layout/chat_bubble_layout.xml" value="0.3625" />
         <entry key="..\:/Licenta/app/src/main/res/layout/comment_layout.xml" value="0.2755208333333333" />
@@ -49,6 +51,7 @@
         <entry key="..\:/Licenta/app/src/main/res/layout/message_send.xml" value="0.3614583333333333" />
         <entry key="..\:/Licenta/app/src/main/res/layout/post_layout.xml" value="0.3625" />
         <entry key="..\:/Licenta/app/src/main/res/layout/posting_layout.xml" value="0.25364583333333335" />
+        <entry key="..\:/Licenta/app/src/main/res/layout/search_bubble_layout.xml" value="0.3614583333333333" />
         <entry key="..\:/Licenta/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.2526041666666667" />
         <entry key="..\:/Licenta/app/src/main/res/layout/spinner_item.xml" value="0.2526041666666667" />
       </map>

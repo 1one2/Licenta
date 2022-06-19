@@ -11,6 +11,7 @@ import java.util.Locale;
 public class LoginService extends LoginServiceGrpc.LoginServiceImplBase {
     @Override
     public void login(Login.LoginRequest request, StreamObserver<Login.LoginReply> responseObserver) {
+        System.out.println("Somebody is trying to log in");
         Login.LoginReply.Builder response = Login.LoginReply.newBuilder();
         Statement statement = null;
             try {

@@ -11,5 +11,6 @@ message ChatHistoryRequest{
 message ChatHistoryReply{
     int32 chat_id = 1;
     string name = 2;
-    bytes other_profile_picture = 3;
+    int32 account_id = 3;
 }
+

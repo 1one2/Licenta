@@ -219,6 +219,545 @@ public final class Posts {
     // @@protoc_insertion_point(enum_scope:PostCategory)
   }
 
+  public interface PostsRequestByAccountIdOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:PostsRequestByAccountId)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 account_id = 1;</code>
+     */
+    int getAccountId();
+
+    /**
+     * <code>int32 my_account_id = 2;</code>
+     */
+    int getMyAccountId();
+  }
+  /**
+   * Protobuf type {@code PostsRequestByAccountId}
+   */
+  public  static final class PostsRequestByAccountId extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:PostsRequestByAccountId)
+      PostsRequestByAccountIdOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use PostsRequestByAccountId.newBuilder() to construct.
+    private PostsRequestByAccountId(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private PostsRequestByAccountId() {
+      accountId_ = 0;
+      myAccountId_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PostsRequestByAccountId(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              accountId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              myAccountId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return proto.generated.Posts.internal_static_PostsRequestByAccountId_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return proto.generated.Posts.internal_static_PostsRequestByAccountId_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              proto.generated.Posts.PostsRequestByAccountId.class, proto.generated.Posts.PostsRequestByAccountId.Builder.class);
+    }
+
+    public static final int ACCOUNT_ID_FIELD_NUMBER = 1;
+    private int accountId_;
+    /**
+     * <code>int32 account_id = 1;</code>
+     */
+    public int getAccountId() {
+      return accountId_;
+    }
+
+    public static final int MY_ACCOUNT_ID_FIELD_NUMBER = 2;
+    private int myAccountId_;
+    /**
+     * <code>int32 my_account_id = 2;</code>
+     */
+    public int getMyAccountId() {
+      return myAccountId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (accountId_ != 0) {
+        output.writeInt32(1, accountId_);
+      }
+      if (myAccountId_ != 0) {
+        output.writeInt32(2, myAccountId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (accountId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, accountId_);
+      }
+      if (myAccountId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, myAccountId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof proto.generated.Posts.PostsRequestByAccountId)) {
+        return super.equals(obj);
+      }
+      proto.generated.Posts.PostsRequestByAccountId other = (proto.generated.Posts.PostsRequestByAccountId) obj;
+
+      boolean result = true;
+      result = result && (getAccountId()
+          == other.getAccountId());
+      result = result && (getMyAccountId()
+          == other.getMyAccountId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ACCOUNT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getAccountId();
+      hash = (37 * hash) + MY_ACCOUNT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getMyAccountId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static proto.generated.Posts.PostsRequestByAccountId parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(proto.generated.Posts.PostsRequestByAccountId prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PostsRequestByAccountId}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:PostsRequestByAccountId)
+        proto.generated.Posts.PostsRequestByAccountIdOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return proto.generated.Posts.internal_static_PostsRequestByAccountId_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return proto.generated.Posts.internal_static_PostsRequestByAccountId_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                proto.generated.Posts.PostsRequestByAccountId.class, proto.generated.Posts.PostsRequestByAccountId.Builder.class);
+      }
+
+      // Construct using proto.generated.Posts.PostsRequestByAccountId.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        accountId_ = 0;
+
+        myAccountId_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return proto.generated.Posts.internal_static_PostsRequestByAccountId_descriptor;
+      }
+
+      @java.lang.Override
+      public proto.generated.Posts.PostsRequestByAccountId getDefaultInstanceForType() {
+        return proto.generated.Posts.PostsRequestByAccountId.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public proto.generated.Posts.PostsRequestByAccountId build() {
+        proto.generated.Posts.PostsRequestByAccountId result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public proto.generated.Posts.PostsRequestByAccountId buildPartial() {
+        proto.generated.Posts.PostsRequestByAccountId result = new proto.generated.Posts.PostsRequestByAccountId(this);
+        result.accountId_ = accountId_;
+        result.myAccountId_ = myAccountId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof proto.generated.Posts.PostsRequestByAccountId) {
+          return mergeFrom((proto.generated.Posts.PostsRequestByAccountId)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(proto.generated.Posts.PostsRequestByAccountId other) {
+        if (other == proto.generated.Posts.PostsRequestByAccountId.getDefaultInstance()) return this;
+        if (other.getAccountId() != 0) {
+          setAccountId(other.getAccountId());
+        }
+        if (other.getMyAccountId() != 0) {
+          setMyAccountId(other.getMyAccountId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        proto.generated.Posts.PostsRequestByAccountId parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (proto.generated.Posts.PostsRequestByAccountId) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int accountId_ ;
+      /**
+       * <code>int32 account_id = 1;</code>
+       */
+      public int getAccountId() {
+        return accountId_;
+      }
+      /**
+       * <code>int32 account_id = 1;</code>
+       */
+      public Builder setAccountId(int value) {
+        
+        accountId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 account_id = 1;</code>
+       */
+      public Builder clearAccountId() {
+        
+        accountId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int myAccountId_ ;
+      /**
+       * <code>int32 my_account_id = 2;</code>
+       */
+      public int getMyAccountId() {
+        return myAccountId_;
+      }
+      /**
+       * <code>int32 my_account_id = 2;</code>
+       */
+      public Builder setMyAccountId(int value) {
+        
+        myAccountId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 my_account_id = 2;</code>
+       */
+      public Builder clearMyAccountId() {
+        
+        myAccountId_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:PostsRequestByAccountId)
+    }
+
+    // @@protoc_insertion_point(class_scope:PostsRequestByAccountId)
+    private static final proto.generated.Posts.PostsRequestByAccountId DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new proto.generated.Posts.PostsRequestByAccountId();
+    }
+
+    public static proto.generated.Posts.PostsRequestByAccountId getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<PostsRequestByAccountId>
+        PARSER = new com.google.protobuf.AbstractParser<PostsRequestByAccountId>() {
+      @java.lang.Override
+      public PostsRequestByAccountId parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PostsRequestByAccountId(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<PostsRequestByAccountId> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PostsRequestByAccountId> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public proto.generated.Posts.PostsRequestByAccountId getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface LitePostOrBuilder extends
       // @@protoc_insertion_point(interface_extends:LitePost)
       com.google.protobuf.MessageOrBuilder {
@@ -272,9 +811,9 @@ public final class Posts {
     proto.generated.Posts.Campus getWhichCampus();
 
     /**
-     * <code>bytes posted_picture = 7;</code>
+     * <code>bool has_photo = 7;</code>
      */
-    com.google.protobuf.ByteString getPostedPicture();
+    boolean getHasPhoto();
   }
   /**
    * Protobuf type {@code LitePost}
@@ -295,7 +834,7 @@ public final class Posts {
       postCategory_ = 0;
       whichHouse_ = 0;
       whichCampus_ = 0;
-      postedPicture_ = com.google.protobuf.ByteString.EMPTY;
+      hasPhoto_ = false;
     }
 
     @java.lang.Override
@@ -356,9 +895,9 @@ public final class Posts {
               whichCampus_ = rawValue;
               break;
             }
-            case 58: {
+            case 56: {
 
-              postedPicture_ = input.readBytes();
+              hasPhoto_ = input.readBool();
               break;
             }
             default: {
@@ -513,13 +1052,13 @@ public final class Posts {
       return result == null ? proto.generated.Posts.Campus.UNRECOGNIZED : result;
     }
 
-    public static final int POSTED_PICTURE_FIELD_NUMBER = 7;
-    private com.google.protobuf.ByteString postedPicture_;
+    public static final int HAS_PHOTO_FIELD_NUMBER = 7;
+    private boolean hasPhoto_;
     /**
-     * <code>bytes posted_picture = 7;</code>
+     * <code>bool has_photo = 7;</code>
      */
-    public com.google.protobuf.ByteString getPostedPicture() {
-      return postedPicture_;
+    public boolean getHasPhoto() {
+      return hasPhoto_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -554,8 +1093,8 @@ public final class Posts {
       if (whichCampus_ != proto.generated.Posts.Campus.CAMPUS_MEMO.getNumber()) {
         output.writeEnum(6, whichCampus_);
       }
-      if (!postedPicture_.isEmpty()) {
-        output.writeBytes(7, postedPicture_);
+      if (hasPhoto_ != false) {
+        output.writeBool(7, hasPhoto_);
       }
       unknownFields.writeTo(output);
     }
@@ -588,9 +1127,9 @@ public final class Posts {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, whichCampus_);
       }
-      if (!postedPicture_.isEmpty()) {
+      if (hasPhoto_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(7, postedPicture_);
+          .computeBoolSize(7, hasPhoto_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -618,8 +1157,8 @@ public final class Posts {
       result = result && (getWhichHouse()
           == other.getWhichHouse());
       result = result && whichCampus_ == other.whichCampus_;
-      result = result && getPostedPicture()
-          .equals(other.getPostedPicture());
+      result = result && (getHasPhoto()
+          == other.getHasPhoto());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -643,8 +1182,9 @@ public final class Posts {
       hash = (53 * hash) + getWhichHouse();
       hash = (37 * hash) + WHICH_CAMPUS_FIELD_NUMBER;
       hash = (53 * hash) + whichCampus_;
-      hash = (37 * hash) + POSTED_PICTURE_FIELD_NUMBER;
-      hash = (53 * hash) + getPostedPicture().hashCode();
+      hash = (37 * hash) + HAS_PHOTO_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHasPhoto());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -790,7 +1330,7 @@ public final class Posts {
 
         whichCampus_ = 0;
 
-        postedPicture_ = com.google.protobuf.ByteString.EMPTY;
+        hasPhoto_ = false;
 
         return this;
       }
@@ -824,7 +1364,7 @@ public final class Posts {
         result.postCategory_ = postCategory_;
         result.whichHouse_ = whichHouse_;
         result.whichCampus_ = whichCampus_;
-        result.postedPicture_ = postedPicture_;
+        result.hasPhoto_ = hasPhoto_;
         onBuilt();
         return result;
       }
@@ -893,8 +1433,8 @@ public final class Posts {
         if (other.whichCampus_ != 0) {
           setWhichCampusValue(other.getWhichCampusValue());
         }
-        if (other.getPostedPicture() != com.google.protobuf.ByteString.EMPTY) {
-          setPostedPicture(other.getPostedPicture());
+        if (other.getHasPhoto() != false) {
+          setHasPhoto(other.getHasPhoto());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1205,31 +1745,28 @@ public final class Posts {
         return this;
       }
 
-      private com.google.protobuf.ByteString postedPicture_ = com.google.protobuf.ByteString.EMPTY;
+      private boolean hasPhoto_ ;
       /**
-       * <code>bytes posted_picture = 7;</code>
+       * <code>bool has_photo = 7;</code>
        */
-      public com.google.protobuf.ByteString getPostedPicture() {
-        return postedPicture_;
+      public boolean getHasPhoto() {
+        return hasPhoto_;
       }
       /**
-       * <code>bytes posted_picture = 7;</code>
+       * <code>bool has_photo = 7;</code>
        */
-      public Builder setPostedPicture(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        postedPicture_ = value;
+      public Builder setHasPhoto(boolean value) {
+        
+        hasPhoto_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bytes posted_picture = 7;</code>
+       * <code>bool has_photo = 7;</code>
        */
-      public Builder clearPostedPicture() {
+      public Builder clearHasPhoto() {
         
-        postedPicture_ = getDefaultInstance().getPostedPicture();
+        hasPhoto_ = false;
         onChanged();
         return this;
       }
@@ -1309,12 +1846,7 @@ public final class Posts {
     proto.generated.Posts.LitePostOrBuilder getLitePostOrBuilder();
 
     /**
-     * <code>bytes poster_profile_picture = 3;</code>
-     */
-    com.google.protobuf.ByteString getPosterProfilePicture();
-
-    /**
-     * <code>bool liked = 4;</code>
+     * <code>bool liked = 3;</code>
      */
     boolean getLiked();
   }
@@ -1332,7 +1864,6 @@ public final class Posts {
     }
     private Post() {
       postId_ = 0;
-      posterProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
       liked_ = false;
     }
 
@@ -1378,12 +1909,7 @@ public final class Posts {
 
               break;
             }
-            case 26: {
-
-              posterProfilePicture_ = input.readBytes();
-              break;
-            }
-            case 32: {
+            case 24: {
 
               liked_ = input.readBool();
               break;
@@ -1450,19 +1976,10 @@ public final class Posts {
       return getLitePost();
     }
 
-    public static final int POSTER_PROFILE_PICTURE_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString posterProfilePicture_;
-    /**
-     * <code>bytes poster_profile_picture = 3;</code>
-     */
-    public com.google.protobuf.ByteString getPosterProfilePicture() {
-      return posterProfilePicture_;
-    }
-
-    public static final int LIKED_FIELD_NUMBER = 4;
+    public static final int LIKED_FIELD_NUMBER = 3;
     private boolean liked_;
     /**
-     * <code>bool liked = 4;</code>
+     * <code>bool liked = 3;</code>
      */
     public boolean getLiked() {
       return liked_;
@@ -1488,11 +2005,8 @@ public final class Posts {
       if (litePost_ != null) {
         output.writeMessage(2, getLitePost());
       }
-      if (!posterProfilePicture_.isEmpty()) {
-        output.writeBytes(3, posterProfilePicture_);
-      }
       if (liked_ != false) {
-        output.writeBool(4, liked_);
+        output.writeBool(3, liked_);
       }
       unknownFields.writeTo(output);
     }
@@ -1511,13 +2025,9 @@ public final class Posts {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getLitePost());
       }
-      if (!posterProfilePicture_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, posterProfilePicture_);
-      }
       if (liked_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, liked_);
+          .computeBoolSize(3, liked_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1542,8 +2052,6 @@ public final class Posts {
         result = result && getLitePost()
             .equals(other.getLitePost());
       }
-      result = result && getPosterProfilePicture()
-          .equals(other.getPosterProfilePicture());
       result = result && (getLiked()
           == other.getLiked());
       result = result && unknownFields.equals(other.unknownFields);
@@ -1563,8 +2071,6 @@ public final class Posts {
         hash = (37 * hash) + LITE_POST_FIELD_NUMBER;
         hash = (53 * hash) + getLitePost().hashCode();
       }
-      hash = (37 * hash) + POSTER_PROFILE_PICTURE_FIELD_NUMBER;
-      hash = (53 * hash) + getPosterProfilePicture().hashCode();
       hash = (37 * hash) + LIKED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getLiked());
@@ -1709,8 +2215,6 @@ public final class Posts {
           litePost_ = null;
           litePostBuilder_ = null;
         }
-        posterProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
-
         liked_ = false;
 
         return this;
@@ -1745,7 +2249,6 @@ public final class Posts {
         } else {
           result.litePost_ = litePostBuilder_.build();
         }
-        result.posterProfilePicture_ = posterProfilePicture_;
         result.liked_ = liked_;
         onBuilt();
         return result;
@@ -1800,9 +2303,6 @@ public final class Posts {
         }
         if (other.hasLitePost()) {
           mergeLitePost(other.getLitePost());
-        }
-        if (other.getPosterProfilePicture() != com.google.protobuf.ByteString.EMPTY) {
-          setPosterProfilePicture(other.getPosterProfilePicture());
         }
         if (other.getLiked() != false) {
           setLiked(other.getLiked());
@@ -1979,44 +2479,15 @@ public final class Posts {
         return litePostBuilder_;
       }
 
-      private com.google.protobuf.ByteString posterProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>bytes poster_profile_picture = 3;</code>
-       */
-      public com.google.protobuf.ByteString getPosterProfilePicture() {
-        return posterProfilePicture_;
-      }
-      /**
-       * <code>bytes poster_profile_picture = 3;</code>
-       */
-      public Builder setPosterProfilePicture(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        posterProfilePicture_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bytes poster_profile_picture = 3;</code>
-       */
-      public Builder clearPosterProfilePicture() {
-        
-        posterProfilePicture_ = getDefaultInstance().getPosterProfilePicture();
-        onChanged();
-        return this;
-      }
-
       private boolean liked_ ;
       /**
-       * <code>bool liked = 4;</code>
+       * <code>bool liked = 3;</code>
        */
       public boolean getLiked() {
         return liked_;
       }
       /**
-       * <code>bool liked = 4;</code>
+       * <code>bool liked = 3;</code>
        */
       public Builder setLiked(boolean value) {
         
@@ -2025,7 +2496,7 @@ public final class Posts {
         return this;
       }
       /**
-       * <code>bool liked = 4;</code>
+       * <code>bool liked = 3;</code>
        */
       public Builder clearLiked() {
         
@@ -2094,6 +2565,16 @@ public final class Posts {
      * <code>bool successful = 1;</code>
      */
     boolean getSuccessful();
+
+    /**
+     * <code>int32 post_id = 2;</code>
+     */
+    int getPostId();
+
+    /**
+     * <code>bool has_photo = 4;</code>
+     */
+    boolean getHasPhoto();
   }
   /**
    * Protobuf type {@code PostingReply}
@@ -2109,6 +2590,8 @@ public final class Posts {
     }
     private PostingReply() {
       successful_ = false;
+      postId_ = 0;
+      hasPhoto_ = false;
     }
 
     @java.lang.Override
@@ -2138,6 +2621,16 @@ public final class Posts {
             case 8: {
 
               successful_ = input.readBool();
+              break;
+            }
+            case 16: {
+
+              postId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              hasPhoto_ = input.readBool();
               break;
             }
             default: {
@@ -2181,6 +2674,24 @@ public final class Posts {
       return successful_;
     }
 
+    public static final int POST_ID_FIELD_NUMBER = 2;
+    private int postId_;
+    /**
+     * <code>int32 post_id = 2;</code>
+     */
+    public int getPostId() {
+      return postId_;
+    }
+
+    public static final int HAS_PHOTO_FIELD_NUMBER = 4;
+    private boolean hasPhoto_;
+    /**
+     * <code>bool has_photo = 4;</code>
+     */
+    public boolean getHasPhoto() {
+      return hasPhoto_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2198,6 +2709,12 @@ public final class Posts {
       if (successful_ != false) {
         output.writeBool(1, successful_);
       }
+      if (postId_ != 0) {
+        output.writeInt32(2, postId_);
+      }
+      if (hasPhoto_ != false) {
+        output.writeBool(4, hasPhoto_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2210,6 +2727,14 @@ public final class Posts {
       if (successful_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, successful_);
+      }
+      if (postId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, postId_);
+      }
+      if (hasPhoto_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, hasPhoto_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2229,6 +2754,10 @@ public final class Posts {
       boolean result = true;
       result = result && (getSuccessful()
           == other.getSuccessful());
+      result = result && (getPostId()
+          == other.getPostId());
+      result = result && (getHasPhoto()
+          == other.getHasPhoto());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2243,6 +2772,11 @@ public final class Posts {
       hash = (37 * hash) + SUCCESSFUL_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getSuccessful());
+      hash = (37 * hash) + POST_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getPostId();
+      hash = (37 * hash) + HAS_PHOTO_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHasPhoto());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2378,6 +2912,10 @@ public final class Posts {
         super.clear();
         successful_ = false;
 
+        postId_ = 0;
+
+        hasPhoto_ = false;
+
         return this;
       }
 
@@ -2405,6 +2943,8 @@ public final class Posts {
       public proto.generated.Posts.PostingReply buildPartial() {
         proto.generated.Posts.PostingReply result = new proto.generated.Posts.PostingReply(this);
         result.successful_ = successful_;
+        result.postId_ = postId_;
+        result.hasPhoto_ = hasPhoto_;
         onBuilt();
         return result;
       }
@@ -2455,6 +2995,12 @@ public final class Posts {
         if (other == proto.generated.Posts.PostingReply.getDefaultInstance()) return this;
         if (other.getSuccessful() != false) {
           setSuccessful(other.getSuccessful());
+        }
+        if (other.getPostId() != 0) {
+          setPostId(other.getPostId());
+        }
+        if (other.getHasPhoto() != false) {
+          setHasPhoto(other.getHasPhoto());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2507,6 +3053,58 @@ public final class Posts {
       public Builder clearSuccessful() {
         
         successful_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int postId_ ;
+      /**
+       * <code>int32 post_id = 2;</code>
+       */
+      public int getPostId() {
+        return postId_;
+      }
+      /**
+       * <code>int32 post_id = 2;</code>
+       */
+      public Builder setPostId(int value) {
+        
+        postId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 post_id = 2;</code>
+       */
+      public Builder clearPostId() {
+        
+        postId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean hasPhoto_ ;
+      /**
+       * <code>bool has_photo = 4;</code>
+       */
+      public boolean getHasPhoto() {
+        return hasPhoto_;
+      }
+      /**
+       * <code>bool has_photo = 4;</code>
+       */
+      public Builder setHasPhoto(boolean value) {
+        
+        hasPhoto_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool has_photo = 4;</code>
+       */
+      public Builder clearHasPhoto() {
+        
+        hasPhoto_ = false;
         onChanged();
         return this;
       }
@@ -4124,11 +4722,6 @@ public final class Posts {
      * <code>.LiteCommentary lite_commentary = 2;</code>
      */
     proto.generated.Posts.LiteCommentaryOrBuilder getLiteCommentaryOrBuilder();
-
-    /**
-     * <code>bytes commentator_profile_picture = 3;</code>
-     */
-    com.google.protobuf.ByteString getCommentatorProfilePicture();
   }
   /**
    * Protobuf type {@code Commentary}
@@ -4144,7 +4737,6 @@ public final class Posts {
     }
     private Commentary() {
       commentId_ = 0;
-      commentatorProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -4187,11 +4779,6 @@ public final class Posts {
                 liteCommentary_ = subBuilder.buildPartial();
               }
 
-              break;
-            }
-            case 26: {
-
-              commentatorProfilePicture_ = input.readBytes();
               break;
             }
             default: {
@@ -4256,15 +4843,6 @@ public final class Posts {
       return getLiteCommentary();
     }
 
-    public static final int COMMENTATOR_PROFILE_PICTURE_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString commentatorProfilePicture_;
-    /**
-     * <code>bytes commentator_profile_picture = 3;</code>
-     */
-    public com.google.protobuf.ByteString getCommentatorProfilePicture() {
-      return commentatorProfilePicture_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4285,9 +4863,6 @@ public final class Posts {
       if (liteCommentary_ != null) {
         output.writeMessage(2, getLiteCommentary());
       }
-      if (!commentatorProfilePicture_.isEmpty()) {
-        output.writeBytes(3, commentatorProfilePicture_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -4304,10 +4879,6 @@ public final class Posts {
       if (liteCommentary_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getLiteCommentary());
-      }
-      if (!commentatorProfilePicture_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, commentatorProfilePicture_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4332,8 +4903,6 @@ public final class Posts {
         result = result && getLiteCommentary()
             .equals(other.getLiteCommentary());
       }
-      result = result && getCommentatorProfilePicture()
-          .equals(other.getCommentatorProfilePicture());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4351,8 +4920,6 @@ public final class Posts {
         hash = (37 * hash) + LITE_COMMENTARY_FIELD_NUMBER;
         hash = (53 * hash) + getLiteCommentary().hashCode();
       }
-      hash = (37 * hash) + COMMENTATOR_PROFILE_PICTURE_FIELD_NUMBER;
-      hash = (53 * hash) + getCommentatorProfilePicture().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4494,8 +5061,6 @@ public final class Posts {
           liteCommentary_ = null;
           liteCommentaryBuilder_ = null;
         }
-        commentatorProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
-
         return this;
       }
 
@@ -4528,7 +5093,6 @@ public final class Posts {
         } else {
           result.liteCommentary_ = liteCommentaryBuilder_.build();
         }
-        result.commentatorProfilePicture_ = commentatorProfilePicture_;
         onBuilt();
         return result;
       }
@@ -4582,9 +5146,6 @@ public final class Posts {
         }
         if (other.hasLiteCommentary()) {
           mergeLiteCommentary(other.getLiteCommentary());
-        }
-        if (other.getCommentatorProfilePicture() != com.google.protobuf.ByteString.EMPTY) {
-          setCommentatorProfilePicture(other.getCommentatorProfilePicture());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4756,35 +5317,6 @@ public final class Posts {
           liteCommentary_ = null;
         }
         return liteCommentaryBuilder_;
-      }
-
-      private com.google.protobuf.ByteString commentatorProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>bytes commentator_profile_picture = 3;</code>
-       */
-      public com.google.protobuf.ByteString getCommentatorProfilePicture() {
-        return commentatorProfilePicture_;
-      }
-      /**
-       * <code>bytes commentator_profile_picture = 3;</code>
-       */
-      public Builder setCommentatorProfilePicture(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        commentatorProfilePicture_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bytes commentator_profile_picture = 3;</code>
-       */
-      public Builder clearCommentatorProfilePicture() {
-        
-        commentatorProfilePicture_ = getDefaultInstance().getCommentatorProfilePicture();
-        onChanged();
-        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -5919,6 +6451,11 @@ public final class Posts {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_PostsRequestByAccountId_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_PostsRequestByAccountId_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LitePost_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -5967,36 +6504,38 @@ public final class Posts {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013Posts.proto\"\272\001\n\010LitePost\022\021\n\tposter_id\030" +
-      "\001 \001(\005\022\026\n\016name_of_poster\030\002 \001(\t\022\021\n\tpost_te" +
-      "xt\030\003 \001(\t\022$\n\rpost_category\030\004 \001(\0162\r.PostCa" +
-      "tegory\022\023\n\013which_house\030\005 \001(\005\022\035\n\014which_cam" +
-      "pus\030\006 \001(\0162\007.Campus\022\026\n\016posted_picture\030\007 \001" +
-      "(\014\"d\n\004Post\022\017\n\007post_id\030\001 \001(\005\022\034\n\tlite_post" +
-      "\030\002 \001(\0132\t.LitePost\022\036\n\026poster_profile_pict" +
-      "ure\030\003 \001(\014\022\r\n\005liked\030\004 \001(\010\"\"\n\014PostingReply" +
-      "\022\022\n\nsuccessful\030\001 \001(\010\"\205\001\n\013PostRequest\022\034\n\024" +
-      "last_post_fetched_id\030\001 \001(\005\022$\n\rpost_categ" +
-      "ory\030\002 \001(\0162\r.PostCategory\022\035\n\014which_campus" +
-      "\030\003 \001(\0162\007.Campus\022\023\n\013which_house\030\004 \001(\005\"l\n\016" +
-      "LiteCommentary\022\026\n\016commentator_id\030\001 \001(\005\022\017" +
-      "\n\007post_id\030\002 \001(\005\022\033\n\023name_of_commentator\030\003" +
-      " \001(\t\022\024\n\014comment_text\030\004 \001(\t\"o\n\nCommentary" +
-      "\022\022\n\ncomment_id\030\001 \001(\005\022(\n\017lite_commentary\030" +
-      "\002 \001(\0132\017.LiteCommentary\022#\n\033commentator_pr" +
-      "ofile_picture\030\003 \001(\014\"&\n\023CommentariesReque" +
-      "st\022\017\n\007post_id\030\001 \001(\005\">\n\010SendLike\022\017\n\007post_" +
-      "id\030\001 \001(\005\022\022\n\naccount_id\030\002 \001(\005\022\r\n\005liked\030\003 " +
-      "\001(\010*,\n\006Campus\022\017\n\013CAMPUS_MEMO\020\000\022\021\n\rCAMPUS" +
-      "_COLINA\020\001*X\n\014PostCategory\022\025\n\021POST_CATEGO" +
-      "RY_ALL\020\000\022\030\n\024POST_CATEGORY_CAMPUS\020\001\022\027\n\023PO" +
-      "ST_CATEGORY_HOUSE\020\0022\334\001\n\014PostsService\022!\n\010" +
-      "GetPosts\022\014.PostRequest\032\005.Post0\001\022\"\n\006PostI" +
-      "t\022\t.LitePost\032\r.PostingReply\022\"\n\006LikeIt\022\t." +
-      "SendLike\032\r.PostingReply\022-\n\013SendComment\022\017" +
-      ".LiteCommentary\032\r.PostingReply\0222\n\013GetCom" +
-      "ments\022\024.CommentariesRequest\032\013.Commentary" +
-      "0\001B\021\n\017proto.generatedb\006proto3"
+      "\n\013Posts.proto\"D\n\027PostsRequestByAccountId" +
+      "\022\022\n\naccount_id\030\001 \001(\005\022\025\n\rmy_account_id\030\002 " +
+      "\001(\005\"\265\001\n\010LitePost\022\021\n\tposter_id\030\001 \001(\005\022\026\n\016n" +
+      "ame_of_poster\030\002 \001(\t\022\021\n\tpost_text\030\003 \001(\t\022$" +
+      "\n\rpost_category\030\004 \001(\0162\r.PostCategory\022\023\n\013" +
+      "which_house\030\005 \001(\005\022\035\n\014which_campus\030\006 \001(\0162" +
+      "\007.Campus\022\021\n\thas_photo\030\007 \001(\010\"D\n\004Post\022\017\n\007p" +
+      "ost_id\030\001 \001(\005\022\034\n\tlite_post\030\002 \001(\0132\t.LitePo" +
+      "st\022\r\n\005liked\030\003 \001(\010\"F\n\014PostingReply\022\022\n\nsuc" +
+      "cessful\030\001 \001(\010\022\017\n\007post_id\030\002 \001(\005\022\021\n\thas_ph" +
+      "oto\030\004 \001(\010\"\205\001\n\013PostRequest\022\034\n\024last_post_f" +
+      "etched_id\030\001 \001(\005\022$\n\rpost_category\030\002 \001(\0162\r" +
+      ".PostCategory\022\035\n\014which_campus\030\003 \001(\0162\007.Ca" +
+      "mpus\022\023\n\013which_house\030\004 \001(\005\"l\n\016LiteComment" +
+      "ary\022\026\n\016commentator_id\030\001 \001(\005\022\017\n\007post_id\030\002" +
+      " \001(\005\022\033\n\023name_of_commentator\030\003 \001(\t\022\024\n\014com" +
+      "ment_text\030\004 \001(\t\"J\n\nCommentary\022\022\n\ncomment" +
+      "_id\030\001 \001(\005\022(\n\017lite_commentary\030\002 \001(\0132\017.Lit" +
+      "eCommentary\"&\n\023CommentariesRequest\022\017\n\007po" +
+      "st_id\030\001 \001(\005\">\n\010SendLike\022\017\n\007post_id\030\001 \001(\005" +
+      "\022\022\n\naccount_id\030\002 \001(\005\022\r\n\005liked\030\003 \001(\010*,\n\006C" +
+      "ampus\022\017\n\013CAMPUS_MEMO\020\000\022\021\n\rCAMPUS_COLINA\020" +
+      "\001*X\n\014PostCategory\022\025\n\021POST_CATEGORY_ALL\020\000" +
+      "\022\030\n\024POST_CATEGORY_CAMPUS\020\001\022\027\n\023POST_CATEG" +
+      "ORY_HOUSE\020\0022\217\002\n\014PostsService\022!\n\010GetPosts" +
+      "\022\014.PostRequest\032\005.Post0\001\022\"\n\006PostIt\022\t.Lite" +
+      "Post\032\r.PostingReply\022\"\n\006LikeIt\022\t.SendLike" +
+      "\032\r.PostingReply\022-\n\013SendComment\022\017.LiteCom" +
+      "mentary\032\r.PostingReply\0222\n\013GetComments\022\024." +
+      "CommentariesRequest\032\013.Commentary0\001\0221\n\014Ge" +
+      "tPostsById\022\030.PostsRequestByAccountId\032\005.P" +
+      "ost0\001B\021\n\017proto.generatedb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6010,50 +6549,56 @@ public final class Posts {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_LitePost_descriptor =
+    internal_static_PostsRequestByAccountId_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_PostsRequestByAccountId_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_PostsRequestByAccountId_descriptor,
+        new java.lang.String[] { "AccountId", "MyAccountId", });
+    internal_static_LitePost_descriptor =
+      getDescriptor().getMessageTypes().get(1);
     internal_static_LitePost_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LitePost_descriptor,
-        new java.lang.String[] { "PosterId", "NameOfPoster", "PostText", "PostCategory", "WhichHouse", "WhichCampus", "PostedPicture", });
+        new java.lang.String[] { "PosterId", "NameOfPoster", "PostText", "PostCategory", "WhichHouse", "WhichCampus", "HasPhoto", });
     internal_static_Post_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Post_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Post_descriptor,
-        new java.lang.String[] { "PostId", "LitePost", "PosterProfilePicture", "Liked", });
+        new java.lang.String[] { "PostId", "LitePost", "Liked", });
     internal_static_PostingReply_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_PostingReply_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PostingReply_descriptor,
-        new java.lang.String[] { "Successful", });
+        new java.lang.String[] { "Successful", "PostId", "HasPhoto", });
     internal_static_PostRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_PostRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PostRequest_descriptor,
         new java.lang.String[] { "LastPostFetchedId", "PostCategory", "WhichCampus", "WhichHouse", });
     internal_static_LiteCommentary_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_LiteCommentary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LiteCommentary_descriptor,
         new java.lang.String[] { "CommentatorId", "PostId", "NameOfCommentator", "CommentText", });
     internal_static_Commentary_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Commentary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Commentary_descriptor,
-        new java.lang.String[] { "CommentId", "LiteCommentary", "CommentatorProfilePicture", });
+        new java.lang.String[] { "CommentId", "LiteCommentary", });
     internal_static_CommentariesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_CommentariesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CommentariesRequest_descriptor,
         new java.lang.String[] { "PostId", });
     internal_static_SendLike_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_SendLike_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SendLike_descriptor,

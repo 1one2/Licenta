@@ -20,5 +20,4 @@ message Account {
   string password = 3;
   Campus campus = 4;
   int32 house = 5;
-  bytes profile_picture = 6;
 }

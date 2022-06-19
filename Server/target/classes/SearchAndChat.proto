@@ -1,0 +1,42 @@
+syntax = "proto3";
+import "Login.proto";
+option java_package = "proto.generated";
+
+
+service SearchAndChatService{
+    rpc SearchForPeople(SearchRequest) returns (stream SearchReply);
+    rpc StartNewChat(StartChatRequest) returns (StartChatReply);
+    rpc GetAccountIdFromChat(RequestId) returns (ReplyId);
+    rpc GetAccountInfo(AccountRequest) returns (Account);
+
+}
+message SearchRequest{
+    string text = 1;
+}
+message SearchReply{
+    int32 other_account_id = 1;
+    string name = 2;
+}
+
+message StartChatRequest{
+    int32 own_id = 1;
+    int32 other_account_id = 2;
+}
+
+message StartChatReply{
+    int32 chat_id = 1;
+}
+
+message RequestId{
+    int32 chat_id = 1;
+    int32 own_account_id = 2;
+}
+
+message ReplyId{
+    int32 account_id = 1;
+}
+
+message AccountRequest{
+    string name = 1;
+}
+

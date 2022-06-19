@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.example.licenta.ApplicationController;
 import com.example.licenta.R;
@@ -24,6 +25,7 @@ public class ChatsMenuActivity extends AppCompatActivity {
     private RecyclerView chatsView;
     private ChatsAdapter adapter;
     private Vector<ChatMenu.ChatHistoryReply> chats;
+    private ImageView profilePicture;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,8 @@ public class ChatsMenuActivity extends AppCompatActivity {
         adapter = new ChatsAdapter(chats);
         chatsView.setLayoutManager(new LinearLayoutManager(ApplicationController.getInstance()));
         chatsView.setAdapter(adapter);
+        profilePicture = findViewById(R.id.profilePictureChatsMenu);
+        profilePicture.setImageBitmap(ApplicationController.getProfilePicture());
 
         refreshChatHistory();
 
@@ -46,7 +50,9 @@ public class ChatsMenuActivity extends AppCompatActivity {
 
 
     private void refreshChatHistory(){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                getInstance().getResources().getString(R.string.server_ip),
+                        ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                 .usePlaintext()
                 .build();
 

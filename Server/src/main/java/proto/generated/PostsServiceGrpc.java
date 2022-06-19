@@ -187,6 +187,38 @@ public final class PostsServiceGrpc {
      return getGetCommentsMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<proto.generated.Posts.PostsRequestByAccountId,
+      proto.generated.Posts.Post> getGetPostsByIdMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetPostsById",
+      requestType = proto.generated.Posts.PostsRequestByAccountId.class,
+      responseType = proto.generated.Posts.Post.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<proto.generated.Posts.PostsRequestByAccountId,
+      proto.generated.Posts.Post> getGetPostsByIdMethod() {
+    io.grpc.MethodDescriptor<proto.generated.Posts.PostsRequestByAccountId, proto.generated.Posts.Post> getGetPostsByIdMethod;
+    if ((getGetPostsByIdMethod = PostsServiceGrpc.getGetPostsByIdMethod) == null) {
+      synchronized (PostsServiceGrpc.class) {
+        if ((getGetPostsByIdMethod = PostsServiceGrpc.getGetPostsByIdMethod) == null) {
+          PostsServiceGrpc.getGetPostsByIdMethod = getGetPostsByIdMethod = 
+              io.grpc.MethodDescriptor.<proto.generated.Posts.PostsRequestByAccountId, proto.generated.Posts.Post>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "PostsService", "GetPostsById"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  proto.generated.Posts.PostsRequestByAccountId.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  proto.generated.Posts.Post.getDefaultInstance()))
+                  .setSchemaDescriptor(new PostsServiceMethodDescriptorSupplier("GetPostsById"))
+                  .build();
+          }
+        }
+     }
+     return getGetPostsByIdMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -249,6 +281,13 @@ public final class PostsServiceGrpc {
       asyncUnimplementedUnaryCall(getGetCommentsMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getPostsById(proto.generated.Posts.PostsRequestByAccountId request,
+        io.grpc.stub.StreamObserver<proto.generated.Posts.Post> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetPostsByIdMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -286,6 +325,13 @@ public final class PostsServiceGrpc {
                 proto.generated.Posts.CommentariesRequest,
                 proto.generated.Posts.Commentary>(
                   this, METHODID_GET_COMMENTS)))
+          .addMethod(
+            getGetPostsByIdMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                proto.generated.Posts.PostsRequestByAccountId,
+                proto.generated.Posts.Post>(
+                  this, METHODID_GET_POSTS_BY_ID)))
           .build();
     }
   }
@@ -347,6 +393,14 @@ public final class PostsServiceGrpc {
       asyncServerStreamingCall(
           getChannel().newCall(getGetCommentsMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getPostsById(proto.generated.Posts.PostsRequestByAccountId request,
+        io.grpc.stub.StreamObserver<proto.generated.Posts.Post> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getGetPostsByIdMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -403,6 +457,14 @@ public final class PostsServiceGrpc {
       return blockingServerStreamingCall(
           getChannel(), getGetCommentsMethod(), getCallOptions(), request);
     }
+
+    /**
+     */
+    public java.util.Iterator<proto.generated.Posts.Post> getPostsById(
+        proto.generated.Posts.PostsRequestByAccountId request) {
+      return blockingServerStreamingCall(
+          getChannel(), getGetPostsByIdMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -453,6 +515,7 @@ public final class PostsServiceGrpc {
   private static final int METHODID_LIKE_IT = 2;
   private static final int METHODID_SEND_COMMENT = 3;
   private static final int METHODID_GET_COMMENTS = 4;
+  private static final int METHODID_GET_POSTS_BY_ID = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -490,6 +553,10 @@ public final class PostsServiceGrpc {
         case METHODID_GET_COMMENTS:
           serviceImpl.getComments((proto.generated.Posts.CommentariesRequest) request,
               (io.grpc.stub.StreamObserver<proto.generated.Posts.Commentary>) responseObserver);
+          break;
+        case METHODID_GET_POSTS_BY_ID:
+          serviceImpl.getPostsById((proto.generated.Posts.PostsRequestByAccountId) request,
+              (io.grpc.stub.StreamObserver<proto.generated.Posts.Post>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -557,6 +624,7 @@ public final class PostsServiceGrpc {
               .addMethod(getLikeItMethod())
               .addMethod(getSendCommentMethod())
               .addMethod(getGetCommentsMethod())
+              .addMethod(getGetPostsByIdMethod())
               .build();
         }
       }

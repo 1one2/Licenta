@@ -76,9 +76,14 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    // GRPC Deps
+    // GRPC Dep
     implementation 'io.grpc:grpc-okhttp:1.35.0'
     implementation 'io.grpc:grpc-protobuf-lite:1.47.0'
     implementation 'io.grpc:grpc-stub:1.47.0'
     implementation 'org.apache.tomcat:annotations-api:6.0.53'
+
+    //Card view
+    implementation 'androidx.appcompat:appcompat:1.6.0-alpha04'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 }

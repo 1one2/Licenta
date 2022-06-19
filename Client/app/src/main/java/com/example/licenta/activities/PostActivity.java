@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -35,11 +36,14 @@ import com.example.licenta.R;
 import com.google.protobuf.ByteString;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import proto.generated.Images;
 import proto.generated.Login;
 import proto.generated.Posts;
 import proto.generated.PostsServiceGrpc;
@@ -52,9 +56,11 @@ public class PostActivity extends AppCompatActivity {
     private TextView nameOfPoster;
     private ImageView addPhoto;
     private ImageView uploadedPhoto;
-    private ActivityResultLauncher<Intent> launcherCapturePhoto;
     private ActivityResultLauncher<Intent> launcherSelectPhoto;
-    private Login.Account account;
+    private ImageView backButton;
+    private ImageView profilePicture;
+
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +71,14 @@ public class PostActivity extends AppCompatActivity {
 
     private void initializeViews() {
 
-        launcherCapturePhoto = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                            Intent data = result.getData();
-                            Bundle extras = data.getExtras();
-                            Bitmap image = (Bitmap)extras.get("data");
-                            uploadedPhoto.setImageBitmap(image);
-                            uploadedPhoto.setVisibility(View.VISIBLE);
-                    }
-                });
+
         launcherSelectPhoto = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         Intent data = result.getData();
-                        uploadedPhoto.setImageURI(Uri.parse(data.getDataString()));
+                        imagePath = data.getDataString();
+                        uploadedPhoto.setImageURI(Uri.parse(imagePath));
                         uploadedPhoto.setVisibility(View.VISIBLE);
                     }
                 });
@@ -97,15 +94,22 @@ public class PostActivity extends AppCompatActivity {
 
         nameOfPoster.setText(ApplicationController.getUserNameFromEmail());
 
+        //Profile picture
+        profilePicture = findViewById(R.id.postingProfilePicture);
+        profilePicture.setImageBitmap(ApplicationController.getProfilePicture());
+
         //The input space for the post
         postText = findViewById(R.id.postingTextInput);
 
         //The "SEND" button
         postButton = findViewById(R.id.sendPostButton);
         postButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+                ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                        getInstance().getResources().getString(R.string.server_ip),
+                                ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                         .usePlaintext()
                         .build();
 
@@ -119,22 +123,24 @@ public class PostActivity extends AppCompatActivity {
                     current = Posts.PostCategory.POST_CATEGORY_CAMPUS;
                 else
                     current = Posts.PostCategory.POST_CATEGORY_HOUSE;
+                int id = ApplicationController.getAccount().getId();
                 Posts.LitePost.Builder postBuilder = Posts.LitePost.newBuilder()
-                        .setPosterId(account.getId())
+                        .setPosterId(id)
                         .setNameOfPoster(nameOfPoster.getText().toString())
                         .setPostText(postText.getText().toString())
-                        .setPostCategory(current);
+                        .setPostCategory(current)
+                        .setHasPhoto(uploadedPhoto.getVisibility() == View.VISIBLE);
 
                 if(current == Posts.PostCategory.POST_CATEGORY_CAMPUS){
 
-                    postBuilder.setWhichCampus(account.getCampus());
+                    postBuilder.setWhichCampus(ApplicationController.getAccount().getCampus());
                 }
                 else if(current == Posts.PostCategory.POST_CATEGORY_HOUSE){
-                    postBuilder.setWhichHouse(account.getHouse());
+                    postBuilder.setWhichHouse(ApplicationController.getAccount().getHouse());
                 }
 
                 /* The photo part to be updated in a future part
-                if(uploadedPhoto.getVisibility() == View.VISIBLE) {
+                 {
                     uploadedPhoto.buildDrawingCache();
                     Bitmap bm = uploadedPhoto.getDrawingCache();
                     bm.setConfig(Bitmap.Config.RGB_565);
@@ -148,8 +154,13 @@ public class PostActivity extends AppCompatActivity {
 
                 Posts.LitePost request = postBuilder.build();
                 Posts.PostingReply reply = postsStub.postIt(request);
-                if(!reply.getSuccessful()){
-                    // do something if not successful
+                if(reply.getSuccessful()){
+                    try {
+                        if(uploadedPhoto.getVisibility() == View.VISIBLE)
+                            ApplicationController.uploadImage(imagePath, Images.ImageUsage.POST_PICTURE,".jpg",reply.getPostId());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
                 channel.shutdownNow();
                 try {
@@ -162,6 +173,14 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+
+        backButton = findViewById(R.id.postingBackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         //Add a photo button
         addPhoto = findViewById(R.id.postingAddPhoto);
         addPhoto.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +197,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void selectImage()
     {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        final CharSequence[] options = {"Choose from Gallery", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
         builder.setTitle("Add photo");
@@ -186,12 +205,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if(options[i].equals("Take Photo")){
-
-                  Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                  checkPermissionToOpenCamera(intent);
-                }
-                else if(options[i].equals("Choose from Gallery")){
+                if(options[i].equals("Choose from Gallery")){
 
                     Intent intent = new Intent();
                     intent.setType("image/*");
@@ -236,11 +250,7 @@ public class PostActivity extends AppCompatActivity {
                             new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_CAMERA);
                 }
-            } else {
-                launcherCapturePhoto.launch(intent);
             }
-        } else {
-            launcherCapturePhoto.launch(intent);
         }
     }
 }

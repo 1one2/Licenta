@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 option java_package = "proto.generated";
 
 service PostsService{
@@ -7,8 +8,13 @@ service PostsService{
     rpc LikeIt(SendLike) returns (PostingReply);
     rpc SendComment(LiteCommentary) returns (PostingReply);
     rpc GetComments(CommentariesRequest) returns (stream Commentary);
+    rpc GetPostsById(PostsRequestByAccountId) returns (stream Post);
 }
 
+message PostsRequestByAccountId{
+    int32 account_id = 1;
+    int32 my_account_id = 2;
+}
 message LitePost{
     int32 poster_id = 1;
     string name_of_poster = 2;
@@ -16,18 +22,18 @@ message LitePost{
     PostCategory post_category = 4;
     int32 which_house = 5;
     Campus which_campus = 6;
-    bytes posted_picture = 7;
+    bool has_photo = 7;
 }
 message Post {
     int32 post_id = 1;
     LitePost lite_post = 2;
-    bytes poster_profile_picture = 3;
-    bool liked = 4;
-
+    bool liked = 3;
 }
 
 message PostingReply{
     bool successful = 1;
+    int32 post_id = 2;
+    bool has_photo = 4;
 }
 
 message PostRequest {
@@ -45,7 +51,6 @@ message LiteCommentary{
 message Commentary{
     int32 comment_id = 1;
     LiteCommentary lite_commentary = 2;
-    bytes commentator_profile_picture = 3;
 }
 
 message CommentariesRequest{
@@ -56,14 +61,14 @@ message SendLike{
     int32 account_id = 2;
     bool liked = 3;
 }
-
+enum Campus{
+    CAMPUS_MEMO = 0;
+    CAMPUS_COLINA = 1;
+}
 enum PostCategory{
 
     POST_CATEGORY_ALL = 0;
     POST_CATEGORY_CAMPUS = 1;
     POST_CATEGORY_HOUSE = 2;
-}
-enum Campus{
-  CAMPUS_MEMO = 0;
-  CAMPUS_COLINA = 1;
+
 }

@@ -48,7 +48,9 @@ public class CommentActivity extends AppCompatActivity {
 
                 if(commentEditText.getText().toString().length() > 0){
 
-                    ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+                    ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                            getInstance().getResources().getString(R.string.server_ip),
+                                    ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                             .usePlaintext()
                             .build();
                     PostsServiceGrpc.PostsServiceBlockingStub postsStub = PostsServiceGrpc.newBlockingStub(channel);
@@ -66,7 +68,8 @@ public class CommentActivity extends AppCompatActivity {
                             .setLiteCommentary(toSend)
                             //.setCommentatorProfilePicture(ownprofilepicture)
                             .build());
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemInserted(adapter.getItemCount());
+                    commentsView.smoothScrollToPosition(adapter.getItemCount());
                     channel.shutdownNow();
                     try {
                         channel.awaitTermination(1,TimeUnit.SECONDS);

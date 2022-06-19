@@ -1,6 +1,5 @@
 package com.example.licenta.activities;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.icu.text.StringPrepParseException;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -18,15 +16,13 @@ import android.widget.TextView;
 import com.example.licenta.ApplicationController;
 import com.example.licenta.R;
 import com.example.licenta.adapters.PostsAdapter;
+import com.example.licenta.models.FullPost;
 
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import proto.generated.Login;
 import proto.generated.Posts;
 import proto.generated.Posts.PostCategory;
 import proto.generated.PostsServiceGrpc;
@@ -40,9 +36,11 @@ public class MainScreenActivity extends AppCompatActivity {
 
     private Intent searchIntent;
     private Intent postingIntent;
+    private ImageView profilePicture;
 
     private PostsAdapter postsAdapter;
-    private Vector<Posts.Post> posts = new Vector<>();
+    private ImageView menuButton;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -59,21 +57,6 @@ public class MainScreenActivity extends AppCompatActivity {
         postsFeed.setAdapter(postsAdapter);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onResume() {
-        super.onResume();
-        changeMenu();
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //ApplicationController.setPostCategory(PostCategory.POST_CATEGORY_ALL);
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -84,16 +67,18 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void changeMenu(){
-        posts = new Vector<>();
+    private void changeMenu(boolean isFirstTime){
 
-        refreshPosts(true);
+        postsAdapter.invalidatePosts();
+        refreshPosts(isFirstTime);
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void refreshPosts(boolean isFirstTime)
     {
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                getInstance().getResources().getString(R.string.server_ip),
+                        ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                 .usePlaintext()
                 .build();
 
@@ -112,18 +97,16 @@ public class MainScreenActivity extends AppCompatActivity {
                     .setWhichHouse(house);
         }
 
-        if(!isFirstTime && !posts.isEmpty())
+        if(!isFirstTime && (postsAdapter.getItemCount() != 0))
             builder
-                    .setLastPostFetchedId(posts.firstElement().getPostId());
+                    .setLastPostFetchedId(postsAdapter.getLastPostID());
 
         Iterator<Posts.Post> reply = postsStub.getPosts(builder.build());
 
         while(reply.hasNext()){
-            posts.add(reply.next());
+            postsAdapter.addPost(new FullPost(reply.next()));
         }
-        postsAdapter = new PostsAdapter(posts);
-        postsFeed.setAdapter(postsAdapter);
-        postsAdapter.notifyDataSetChanged();
+
         channel.shutdownNow();
         try {
             channel.awaitTermination(1, TimeUnit.SECONDS);
@@ -161,33 +144,58 @@ public class MainScreenActivity extends AppCompatActivity {
                 }
             }
 
-            changeMenu();
+            changeMenu(true);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initializeViews()
     {
+        TextView test = findViewById(R.id.appNameBanner);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postsAdapter.notifyDataSetChanged();
+            }
+        });
         //Buttons for the different feeds
         ImageView allPostsButton = findViewById(R.id.allPostsButton);
         ImageView campusPostsButton = findViewById(R.id.campusPostsButton);
         ImageView housePostsButton = findViewById(R.id.housePostsButton);
+        menuButton = findViewById(R.id.menuButton);
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ApplicationController.getInstance(), MenuActivity.class);
+                startActivity(intent);
+            }
+        });
         lastMenuPressed = allPostsButton;
 
         //Functions Buttons
         ImageView searchButton = findViewById(R.id.searchButton);
         ImageView chatButton = findViewById(R.id.chatButton);
         TextView postingBubble = findViewById(R.id.postingEditText);
-        ImageView menuButton = findViewById(R.id.menuButton);
 
         //Profile Picture
-        ImageView profilePicture = findViewById(R.id.profilePicture);
+        profilePicture = findViewById(R.id.profilePicture);
+        profilePicture.setImageBitmap(ApplicationController.getProfilePicture());
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent profile = new Intent(ApplicationController.getInstance(),ProfileActivity.class);
+                profile.putExtra("ID",ApplicationController.getAccount().getId());
+                startActivity(profile);
+            }
+        });
 
         //Posts RecyclerView
         postsFeed = findViewById(R.id.postsFeed);
         LinearLayoutManager layoutManager= new LinearLayoutManager(getApplicationContext());
         postsFeed.setLayoutManager(layoutManager);
-
+        postsAdapter = new PostsAdapter();
+        postsFeed.setAdapter(postsAdapter);
+        postsFeed.setNestedScrollingEnabled(false);
         searchIntent = new Intent(this,SearchActivity.class);
 
         //region OnClickListeners
@@ -205,12 +213,6 @@ public class MainScreenActivity extends AppCompatActivity {
             }
         });
         housePostsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMenuButtonsClick(view);
-            }
-        });
-        menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onMenuButtonsClick(view);

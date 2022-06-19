@@ -1,6 +1,10 @@
 package com.example.licenta.adapters;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +17,44 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.licenta.ApplicationController;
 import com.example.licenta.R;
-import com.example.licenta.activities.CommentActivity;
+import com.example.licenta.activities.ProfileActivity;
+import com.example.licenta.models.FullPost;
 
-import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import proto.generated.Images;
 import proto.generated.Posts;
 import proto.generated.PostsServiceGrpc;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHolder> {
 
-    private Vector<Posts.Post> posts;
+    private Vector<FullPost> posts;
 
-    public PostsAdapter(Vector<Posts.Post> posts) {
+    public PostsAdapter() {
 
-        this.posts = posts;
+        this.posts = new Vector<>();
     }
+
+    public void invalidatePosts(){
+        int count = getItemCount();
+        posts = new Vector<>();
+        notifyItemRangeRemoved(0,count);
+    }
+    public void addPost(FullPost newPost){
+    posts.add(newPost);
+    notifyItemInserted(getItemCount());
+    }
+
+    public int getLastPostID(){
+        return posts.firstElement().getPost().getPostId();
+    }
+
+
 
     @NonNull
     @Override
@@ -46,8 +68,95 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
 
-        Posts.Post post = posts.get(position);
-        holder.bind(post);
+
+        FullPost post = posts.get(position);
+
+        boolean[] doneDownloading = {false,false};
+
+        //Post picture
+        Runnable getPostedPicture = new Runnable() {
+            @Override
+            public void run() {
+                if(post.getPost().getLitePost().getHasPhoto()) {
+                    Images.ImageInfo imageInfo = Images.ImageInfo.newBuilder()
+                            .setImageUsage(Images.ImageUsage.POST_PICTURE)
+                            .setImageType(".jpg")
+                            .setAccountId(post.getPost().getLitePost().getPosterId())
+                            .setPostId(post.getPost().getPostId()).build();
+
+                    ByteArrayOutputStream stream = ApplicationController.downloadImage(imageInfo);
+                    Bitmap temp = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size());
+                    post.setPostedPicture(temp);
+
+                }
+                doneDownloading[0] = true;
+            }
+        };
+        Runnable getProfilePicture = new Runnable() {
+            @Override
+            public void run() {
+
+                if(ApplicationController.getAccount().getId() == post.getPost().getLitePost().getPosterId()){
+                    post.setPosterProfilePicture(ApplicationController.getProfilePicture());
+                }
+                else {
+                    Bitmap temp = ApplicationController.downloadAProfilePicture(post.getPost().getLitePost().getPosterId());
+                    post.setPosterProfilePicture(temp);
+                }
+                doneDownloading[1] = true;
+
+            }
+        };
+        Runnable downloadPictures = new Runnable() {
+            @Override
+            public void run() {
+                new Thread(getPostedPicture).start();
+                new Thread(getProfilePicture).start();
+
+            }
+        };
+
+        post.setOwnProfilePicture(ApplicationController.getProfilePicture());
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        //This thread downloads and bind the pictures to the View
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new Thread(downloadPictures).start();
+
+                //This thread sleeps until the pictures are done downloading and then it binds them
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(!(doneDownloading[0] && doneDownloading[1])) {
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //Log.e("Still Running: ", post.getPost().getLitePost().getPostText());
+                            //notifyItemChanged(posts.indexOf(post));
+                        }
+                        handler.post(new Runnable() {
+                                         @Override
+                                         public void run() {
+                                             holder.bindPictures(post);
+                                         }
+                                     });
+                    }
+                }).start();
+
+            }
+        }).start();
+
+        try {
+            holder.bind(post);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -73,6 +182,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         private TextView commentBar;
 
         private boolean isItLiked;
+        private Bitmap profilePictureBitmap;
+        private Bitmap postedPictureBitmap;
+        private Bitmap posterProfilePictureBitmap;
 
 
         public PostViewHolder(@NonNull View itemView) {
@@ -94,10 +206,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             commentBar = view.findViewById(R.id.postedWriteAComment);
         }
 
-        public void bind(Posts.Post post) {
+
+        public void bindPictures(FullPost post){
+
+            if(post.getPost().getLitePost().getHasPhoto()){
+                postedPicture.setImageBitmap(post.getPostedPicture());
+                postedPicture.setVisibility(View.VISIBLE);
+            }
+
+            posterProfilePicture.setImageBitmap(post.getPosterProfilePicture());
+
+
+            ownProfilePicture.setImageBitmap(post.getOwnProfilePicture());
+
+        }
+
+        public void bind(FullPost post) throws InterruptedException {
             //set on click listener etc
             //posterProfilePicture.setImageResource(post.getProfilePicture())
-            isItLiked = post.getLiked();
+            isItLiked = post.getPost().getLiked();
             if(isItLiked) {
                 likeButton.setImageResource(R.drawable.like_vector_pressed);
                 likeText.setTextColor(ApplicationController.getInstance().getResources().getColor(R.color.action));
@@ -106,24 +233,26 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
                 likeButton.setImageResource(R.drawable.like_vector_unpressed);
                 likeText.setTextColor(ApplicationController.getInstance().getResources().getColor(R.color.white));
             }
-            posterName.setText(post.getLitePost().getNameOfPoster());
+            posterName.setText(post.getPost().getLitePost().getNameOfPoster());
 
-            postText.setText(post.getLitePost().getPostText());
+            postText.setText(post.getPost().getLitePost().getPostText());
 
             //postedPicture.setImageBitmap(post.getPostPicture());
 
             View.OnClickListener likeClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+                    ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                    getInstance().getResources().getString(R.string.server_ip),
+                                    ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                             .usePlaintext()
                             .build();
 
                     PostsServiceGrpc.PostsServiceBlockingStub postsStub = PostsServiceGrpc.newBlockingStub(channel);
 
                     Posts.SendLike.Builder builder = Posts.SendLike.newBuilder()
-                            .setAccountId(post.getLitePost().getPosterId())
-                            .setPostId(post.getPostId());
+                            .setAccountId(post.getPost().getLitePost().getPosterId())
+                            .setPostId(post.getPost().getPostId());
 
                     if(isItLiked)
                     {
@@ -155,12 +284,35 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             View.OnClickListener commentClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ApplicationController.setCurrentCommentatingPost(post);
+                    ApplicationController.setCurrentCommentatingPost(post.getPost());
                     ApplicationController.openCommentActivity();
                 }
             };
             commentBar.setOnClickListener(commentClickListener);
             commentButton.setOnClickListener(commentClickListener);
+
+
+
+            posterProfilePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent profile = new Intent(ApplicationController.getInstance(), ProfileActivity.class);
+                    profile.putExtra("ID",post.getPost().getLitePost().getPosterId());
+                    profile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ApplicationController.getInstance().startActivity(profile);
+                }
+            });
+
+            ownProfilePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent profile = new Intent(ApplicationController.getInstance(), ProfileActivity.class);
+                    profile.putExtra("ID",ApplicationController.getAccount().getId());
+                    profile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ApplicationController.getInstance().startActivity(profile);
+                }
+            });
+
 
         }
     }

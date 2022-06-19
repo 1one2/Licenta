@@ -3,10 +3,7 @@ package server;
 import database.DatabaseConnection;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import services.ChatHistoryService;
-import services.LoginService;
-import services.MessagingService;
-import services.PostsService;
+import services.*;
 
 import java.io.IOException;
 
@@ -23,6 +20,8 @@ public class Main {
                     .addService(new PostsService())
                     .addService(new ChatHistoryService())
                     .addService(new MessagingService())
+                    .addService(new ImagesService())
+                    .addService(new SearchAndChatService())
                     .build();
 
             server.start();

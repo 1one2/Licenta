@@ -1,5 +1,9 @@
 package com.example.licenta.adapters;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.licenta.ApplicationController;
 import com.example.licenta.R;
+import com.example.licenta.activities.ProfileActivity;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +36,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentsAdapter(Posts.Post post){
         this.post = post;
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.2.2",8080)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(ApplicationController.
+                                getInstance().getResources().getString(R.string.server_ip),
+                        ApplicationController.getInstance().getResources().getInteger(R.integer.server_port))
                 .usePlaintext()
                 .build();
         PostsServiceGrpc.PostsServiceBlockingStub postsStub = PostsServiceGrpc.newBlockingStub(channel);
@@ -52,16 +60,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
     public void postComment(Posts.Commentary commentary){
         comments.add(commentary);
-        moveAndAddComments();
-    }
-
-    private void moveAndAddComments(){
-        Posts.Commentary temp = comments.lastElement();
-
-        for(int i = comments.size()-1; i > 0; i--){
-            comments.insertElementAt(comments.elementAt(i-1),1);
-        }
-        comments.insertElementAt(temp,0);
     }
 
     @NonNull
@@ -76,7 +74,47 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
 
+        final boolean[] doneDownloading = {false};
         Posts.Commentary commentary = comments.get(position);
+        Runnable getProfilePicture = new Runnable() {
+            @Override
+            public void run() {
+                holder.setProfilePictureBitmap(ApplicationController.downloadAProfilePicture(commentary.getLiteCommentary().getCommentatorId()));
+                doneDownloading[0] = true;
+            }
+        };
+        Thread downloadPicture = new Thread(getProfilePicture);
+        Handler handler = new Handler(Looper.getMainLooper());
+
+
+        //This thread downloads and bind the pictures to the View
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                downloadPicture.start();
+
+                //This thread sleeps until the pictures are done downloading and then it binds them
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(!doneDownloading[0]){
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.bindPicture();
+                            }
+                        });
+                    }
+                }).start();
+            }
+        }).start();
+
         holder.bind(commentary);
     }
 
@@ -91,6 +129,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         private final ImageView profilePicture;
         private final TextView name;
         private final TextView textComment;
+        private Bitmap profilePictureBitmap;
+
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +147,28 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             name.setText(commentary.getLiteCommentary().getNameOfCommentator());
             textComment.setText(commentary.getLiteCommentary().getCommentText());
 
-            //profilePicture.setImageBitmap(commentary.getCommentatorProfilePicture());
+            profilePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent profile = new Intent(ApplicationController.getInstance(), ProfileActivity.class);
+                    profile.putExtra("ID",commentary.getLiteCommentary().getCommentatorId());
+                    profile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ApplicationController.getInstance().startActivity(profile);
+                }
+            });
+        }
+
+
+        public void setProfilePictureBitmap(Bitmap profilePictureBitmap) {
+            this.profilePictureBitmap = profilePictureBitmap;
+        }
+
+        public Bitmap getProfilePictureBitmap() {
+            return profilePictureBitmap;
+        }
+
+        public void bindPicture() {
+            profilePicture.setImageBitmap(profilePictureBitmap);
         }
     }
 

@@ -1414,11 +1414,6 @@ public final class Login {
      * <code>int32 house = 5;</code>
      */
     int getHouse();
-
-    /**
-     * <code>bytes profile_picture = 6;</code>
-     */
-    com.google.protobuf.ByteString getProfilePicture();
   }
   /**
    * Protobuf type {@code Account}
@@ -1438,7 +1433,6 @@ public final class Login {
       password_ = "";
       campus_ = 0;
       house_ = 0;
-      profilePicture_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -1491,11 +1485,6 @@ public final class Login {
             case 40: {
 
               house_ = input.readInt32();
-              break;
-            }
-            case 50: {
-
-              profilePicture_ = input.readBytes();
               break;
             }
             default: {
@@ -1633,15 +1622,6 @@ public final class Login {
       return house_;
     }
 
-    public static final int PROFILE_PICTURE_FIELD_NUMBER = 6;
-    private com.google.protobuf.ByteString profilePicture_;
-    /**
-     * <code>bytes profile_picture = 6;</code>
-     */
-    public com.google.protobuf.ByteString getProfilePicture() {
-      return profilePicture_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1671,9 +1651,6 @@ public final class Login {
       if (house_ != 0) {
         output.writeInt32(5, house_);
       }
-      if (!profilePicture_.isEmpty()) {
-        output.writeBytes(6, profilePicture_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -1701,10 +1678,6 @@ public final class Login {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, house_);
       }
-      if (!profilePicture_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, profilePicture_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1730,8 +1703,6 @@ public final class Login {
       result = result && campus_ == other.campus_;
       result = result && (getHouse()
           == other.getHouse());
-      result = result && getProfilePicture()
-          .equals(other.getProfilePicture());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1753,8 +1724,6 @@ public final class Login {
       hash = (53 * hash) + campus_;
       hash = (37 * hash) + HOUSE_FIELD_NUMBER;
       hash = (53 * hash) + getHouse();
-      hash = (37 * hash) + PROFILE_PICTURE_FIELD_NUMBER;
-      hash = (53 * hash) + getProfilePicture().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1898,8 +1867,6 @@ public final class Login {
 
         house_ = 0;
 
-        profilePicture_ = com.google.protobuf.ByteString.EMPTY;
-
         return this;
       }
 
@@ -1931,7 +1898,6 @@ public final class Login {
         result.password_ = password_;
         result.campus_ = campus_;
         result.house_ = house_;
-        result.profilePicture_ = profilePicture_;
         onBuilt();
         return result;
       }
@@ -1996,9 +1962,6 @@ public final class Login {
         }
         if (other.getHouse() != 0) {
           setHouse(other.getHouse());
-        }
-        if (other.getProfilePicture() != com.google.protobuf.ByteString.EMPTY) {
-          setProfilePicture(other.getProfilePicture());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2263,35 +2226,6 @@ public final class Login {
         onChanged();
         return this;
       }
-
-      private com.google.protobuf.ByteString profilePicture_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>bytes profile_picture = 6;</code>
-       */
-      public com.google.protobuf.ByteString getProfilePicture() {
-        return profilePicture_;
-      }
-      /**
-       * <code>bytes profile_picture = 6;</code>
-       */
-      public Builder setProfilePicture(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        profilePicture_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bytes profile_picture = 6;</code>
-       */
-      public Builder clearProfilePicture() {
-        
-        profilePicture_ = getDefaultInstance().getProfilePicture();
-        onChanged();
-        return this;
-      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2372,12 +2306,11 @@ public final class Login {
       "\n\013Login.proto\032\013Posts.proto\"/\n\014LoginReque" +
       "st\022\r\n\005email\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\";\n\nL" +
       "oginReply\022\022\n\nsuccessful\030\001 \001(\010\022\031\n\007account" +
-      "\030\002 \001(\0132\010.Account\"w\n\007Account\022\n\n\002id\030\001 \001(\005\022" +
+      "\030\002 \001(\0132\010.Account\"^\n\007Account\022\n\n\002id\030\001 \001(\005\022" +
       "\r\n\005email\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\027\n\006camp" +
-      "us\030\004 \001(\0162\007.Campus\022\r\n\005house\030\005 \001(\005\022\027\n\017prof" +
-      "ile_picture\030\006 \001(\01425\n\014LoginService\022%\n\005Log" +
-      "in\022\r.LoginRequest\032\013.LoginReply\"\000B\021\n\017prot" +
-      "o.generatedb\006proto3"
+      "us\030\004 \001(\0162\007.Campus\022\r\n\005house\030\005 \001(\00525\n\014Logi" +
+      "nService\022%\n\005Login\022\r.LoginRequest\032\013.Login" +
+      "Reply\"\000B\021\n\017proto.generatedb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2409,7 +2342,7 @@ public final class Login {
     internal_static_Account_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Account_descriptor,
-        new java.lang.String[] { "Id", "Email", "Password", "Campus", "House", "ProfilePicture", });
+        new java.lang.String[] { "Id", "Email", "Password", "Campus", "House", });
     proto.generated.Posts.getDescriptor();
   }
 

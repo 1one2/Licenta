@@ -510,9 +510,9 @@ public final class ChatMenu {
         getNameBytes();
 
     /**
-     * <code>bytes other_profile_picture = 3;</code>
+     * <code>int32 account_id = 3;</code>
      */
-    com.google.protobuf.ByteString getOtherProfilePicture();
+    int getAccountId();
   }
   /**
    * Protobuf type {@code ChatHistoryReply}
@@ -529,7 +529,7 @@ public final class ChatMenu {
     private ChatHistoryReply() {
       chatId_ = 0;
       name_ = "";
-      otherProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
+      accountId_ = 0;
     }
 
     @java.lang.Override
@@ -567,9 +567,9 @@ public final class ChatMenu {
               name_ = s;
               break;
             }
-            case 26: {
+            case 24: {
 
-              otherProfilePicture_ = input.readBytes();
+              accountId_ = input.readInt32();
               break;
             }
             default: {
@@ -647,13 +647,13 @@ public final class ChatMenu {
       }
     }
 
-    public static final int OTHER_PROFILE_PICTURE_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString otherProfilePicture_;
+    public static final int ACCOUNT_ID_FIELD_NUMBER = 3;
+    private int accountId_;
     /**
-     * <code>bytes other_profile_picture = 3;</code>
+     * <code>int32 account_id = 3;</code>
      */
-    public com.google.protobuf.ByteString getOtherProfilePicture() {
-      return otherProfilePicture_;
+    public int getAccountId() {
+      return accountId_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -676,8 +676,8 @@ public final class ChatMenu {
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!otherProfilePicture_.isEmpty()) {
-        output.writeBytes(3, otherProfilePicture_);
+      if (accountId_ != 0) {
+        output.writeInt32(3, accountId_);
       }
       unknownFields.writeTo(output);
     }
@@ -695,9 +695,9 @@ public final class ChatMenu {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!otherProfilePicture_.isEmpty()) {
+      if (accountId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, otherProfilePicture_);
+          .computeInt32Size(3, accountId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -719,8 +719,8 @@ public final class ChatMenu {
           == other.getChatId());
       result = result && getName()
           .equals(other.getName());
-      result = result && getOtherProfilePicture()
-          .equals(other.getOtherProfilePicture());
+      result = result && (getAccountId()
+          == other.getAccountId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -736,8 +736,8 @@ public final class ChatMenu {
       hash = (53 * hash) + getChatId();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
-      hash = (37 * hash) + OTHER_PROFILE_PICTURE_FIELD_NUMBER;
-      hash = (53 * hash) + getOtherProfilePicture().hashCode();
+      hash = (37 * hash) + ACCOUNT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getAccountId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -875,7 +875,7 @@ public final class ChatMenu {
 
         name_ = "";
 
-        otherProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
+        accountId_ = 0;
 
         return this;
       }
@@ -905,7 +905,7 @@ public final class ChatMenu {
         proto.generated.ChatMenu.ChatHistoryReply result = new proto.generated.ChatMenu.ChatHistoryReply(this);
         result.chatId_ = chatId_;
         result.name_ = name_;
-        result.otherProfilePicture_ = otherProfilePicture_;
+        result.accountId_ = accountId_;
         onBuilt();
         return result;
       }
@@ -961,8 +961,8 @@ public final class ChatMenu {
           name_ = other.name_;
           onChanged();
         }
-        if (other.getOtherProfilePicture() != com.google.protobuf.ByteString.EMPTY) {
-          setOtherProfilePicture(other.getOtherProfilePicture());
+        if (other.getAccountId() != 0) {
+          setAccountId(other.getAccountId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1088,31 +1088,28 @@ public final class ChatMenu {
         return this;
       }
 
-      private com.google.protobuf.ByteString otherProfilePicture_ = com.google.protobuf.ByteString.EMPTY;
+      private int accountId_ ;
       /**
-       * <code>bytes other_profile_picture = 3;</code>
+       * <code>int32 account_id = 3;</code>
        */
-      public com.google.protobuf.ByteString getOtherProfilePicture() {
-        return otherProfilePicture_;
+      public int getAccountId() {
+        return accountId_;
       }
       /**
-       * <code>bytes other_profile_picture = 3;</code>
+       * <code>int32 account_id = 3;</code>
        */
-      public Builder setOtherProfilePicture(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        otherProfilePicture_ = value;
+      public Builder setAccountId(int value) {
+        
+        accountId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bytes other_profile_picture = 3;</code>
+       * <code>int32 account_id = 3;</code>
        */
-      public Builder clearOtherProfilePicture() {
+      public Builder clearAccountId() {
         
-        otherProfilePicture_ = getDefaultInstance().getOtherProfilePicture();
+        accountId_ = 0;
         onChanged();
         return this;
       }
@@ -1189,12 +1186,11 @@ public final class ChatMenu {
   static {
     java.lang.String[] descriptorData = {
       "\n\016ChatMenu.proto\"%\n\022ChatHistoryRequest\022\017" +
-      "\n\007user_id\030\001 \001(\005\"P\n\020ChatHistoryReply\022\017\n\007c" +
-      "hat_id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\035\n\025other_prof" +
-      "ile_picture\030\003 \001(\0142P\n\022ChatHistoryService\022" +
-      ":\n\016GetChatHistory\022\023.ChatHistoryRequest\032\021" +
-      ".ChatHistoryReply0\001B\021\n\017proto.generatedb\006" +
-      "proto3"
+      "\n\007user_id\030\001 \001(\005\"E\n\020ChatHistoryReply\022\017\n\007c" +
+      "hat_id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\naccount_id" +
+      "\030\003 \001(\0052P\n\022ChatHistoryService\022:\n\016GetChatH" +
+      "istory\022\023.ChatHistoryRequest\032\021.ChatHistor" +
+      "yReply0\001B\021\n\017proto.generatedb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1219,7 +1215,7 @@ public final class ChatMenu {
     internal_static_ChatHistoryReply_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ChatHistoryReply_descriptor,
-        new java.lang.String[] { "ChatId", "Name", "OtherProfilePicture", });
+        new java.lang.String[] { "ChatId", "Name", "AccountId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

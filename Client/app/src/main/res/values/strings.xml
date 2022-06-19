@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Licenta</string>
+    <string name="app_name">StudentConnect</string>
     <string name="search_description">The image for the search function</string>
     <string name="chat_description">Image for the chat functionality</string>
     <string name="profile_picture">Profile picture in the posting section</string>
@@ -26,6 +26,10 @@
         <item>Campus</item>
         <item>House</item>
     </string-array>
-    <string name="server_url">10.0.2.2</string>
+    <string name="amazon_host_ip">16.170.170.168</string>
+    <string name="emulator_localhost">10.0.2.2</string>
+    <string name="my_pc_localhost">192.168.0.104</string>
+    <string name="server_ip">@string/my_pc_localhost</string>
+    <string name="upload_a_profile_picture">Upload a profile picture</string>
     <integer name="server_port">8080</integer>
 </resources>

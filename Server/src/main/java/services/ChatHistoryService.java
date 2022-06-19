@@ -41,12 +41,17 @@ public class ChatHistoryService extends ChatHistoryServiceGrpc.ChatHistoryServic
                 ResultSet nameResult = statement.executeQuery(sql);
 
                 nameResult.next();
+                int otherId;
+                if(resultSet.getInt("FIRST_ID") == request.getUserId())
+                    otherId = resultSet.getInt(("SECOND_ID"));
+                else
+                    otherId = resultSet.getInt(("FIRST_ID"));
                 String email = nameResult.getString("EMAIL");
                 String name = email.substring(0,email.indexOf(".")) + " " + email.substring(email.indexOf(".")+1,email.indexOf("@"));
                 ChatMenu.ChatHistoryReply reply = ChatMenu.ChatHistoryReply.newBuilder()
                         .setChatId(resultSet.getInt("CHAT_ID"))
                         .setName(name)
-                        //.setOtherProfilePicture()
+                        .setAccountId(otherId)
                         .build();
 
                 responseObserver.onNext(reply);
